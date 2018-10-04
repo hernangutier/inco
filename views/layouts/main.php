@@ -62,3 +62,4 @@ AceAsset::register($this);
 
 </html>
 <?php $this->endPage() ?>
+<?php   exit; ?>

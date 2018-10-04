@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Recepcion;
+use app\models\RecepcionesDetail;
 use app\models\RecepcionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -52,11 +53,48 @@ class RecepcionController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+           // validate if there is a editable input saved via AJAX
+    if (Yii::$app->request->post('hasEditable')) {
+        // instantiate your book model for saving
+        $dtId = Yii::$app->request->post('editableKey');
+        $model = RecepcionesDetail::findOne($dtId);
 
+        // store a default json response as desired by editable
+        $out = Json::encode(['output'=>'', 'message'=>'']);
+
+        // fetch the first entry in posted data (there should only be one entry
+        // anyway in this array for an editable submission)
+        // - $posted is the posted data for Book without any indexes
+        // - $post is the converted array for single model validation
+        $posted = current($_POST['RecepcionesDetail']);
+        $post = ['detalle' => $posted];
+
+        if (isset($posted['cnt_facturada'])){
+            $model->cnt_facturada=$posted['cnt_facturada'];
+            $output=$model->cnt_facturada;
+            if ($model->save() ) {
+              $out = Json::encode(['output'=>$output, 'message'=>'']);
+              echo $out;
+              return;
+            }
+
+        }
+
+        if (isset($posted['cnt_recibida'])){
+            $model->cnt_recibida=$posted['cnt_recibida'];
+            $output=$model->cnt_recibida;
+            if ($model->save() ) {
+              $out = Json::encode(['output'=>$output, 'message'=>'']);
+              echo $out;
+              return;
+            }
+
+        }
+
+        
+
+
+       
     /**
      * Creates a new Recepcion model.
      * If creation is successful, the browser will be redirected to the 'view' page.

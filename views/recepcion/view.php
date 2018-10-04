@@ -7,7 +7,10 @@ use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Recepcion */
+/* @var $model app\models\Recepciones */
+/* @var $searchModel app\models\RecepcionesDetailSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
 
 $this->title ='Recepcionar Mercancia';
 $this->params['breadcrumbs'][] = ['label' => 'Recepciones', 'url' => ['index']];
@@ -81,64 +84,8 @@ Modal::end();
   </div>
  <hr>
   <div class="col-sm-8">
-
-    <div class="tabbable">
-                  <ul class="nav nav-tabs" id="myTab">
-                    <li class="active">
-                      <a data-toggle="tab" href="#generales">
-                        <i class="blue ace-icon fa fa-newspaper-o bigger-110"></i>
-                        Documentos
-                      </a>
-                    </li>
-
-                    <li >
-                      <a data-toggle="tab" href="#componentes">
-                        <i class="blue fa fa-address-book bigger-110"></i>
-                        Opcion no Disponible
-                      </a>
-                    </li>
-
-
-
-
-
-                  </ul>
-
-                  <div class="tab-content">
-                    <div id="generales" class="tab-pane fade in active">
-                      <?php
-                          'Hola ' //echo Yii::$app->controller->renderPartial('_documentos',['model'=>$model]);
-                      ?>
-                    </div>
-
-                    <div id="componentes" class="tab-pane fade">
-                      <div class="alert alert-info">
-                     <button type="button" class="close" data-dismiss="alert">
-                       <i class="ace-icon fa fa-times"></i>
-                     </button>
-                     <strong>Upps!</strong>
-                     Opcion en desarrollo
-                     <br>
-                   </div>
-                    </div>
-
-                    <div id="poliza" class="tab-pane fade">
-                      <div class="widget-body">
-												<?php
-                            echo 'Hola'//Yii::$app->controller->renderPartial('_poliza',['model'=>$model]);
-                         ?>
-											</div>
-                    </div>
-
-                    <div id="archivo" class="tab-pane fade">
-                      <?php
-                          echo "HOLA"; //echo Yii::$app->controller->renderPartial('_view_adicionales',['model'=>$model]);
-                      ?>
-                    </div>
-
-
-                  </div>
-        </div>
-
+      <?= Yii::$app->controller->renderPartial('_center',['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]); ?>
   </div>
-</div>
+  </div>
+
+  
