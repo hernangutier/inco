@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\helpers\Url;
+use app\models\Proveedores;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use kartik\dialog\Dialog;
@@ -139,7 +140,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute'=>'id_prov',
               'value'=>function($model){
                 return $model->prov->razon;
-              }
+              },
+              'filterType' => GridView::FILTER_SELECT2,
+              'filter' => ArrayHelper::map(Proveedores::find()->orderBy('rif')->asArray()->all(), 'id', 'razon'),
+              'filterWidgetOptions' => [
+                  'pluginOptions' => ['allowClear' => true],
+              ],
+              'filterInputOptions' => ['placeholder' => 'No Filtro'],
+              'format' => 'raw'
+
             ],
             'observaciones',
             ['attribute'=>'is_incidencia',

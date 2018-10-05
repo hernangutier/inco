@@ -8,7 +8,11 @@ use app\models\ProveedoresSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use  yii\db\Query;
+use yii\web\Response;
+use yii\helpers\Url;
+use yii\helpers\Json;
+use yii\widgets\ActiveForm;
 /**
  * ProveedoresController implements the CRUD actions for Proveedores model.
  */
@@ -56,6 +60,40 @@ class ProveedoresController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+
+
+
+
+    public function actionModal($submit = false)
+        {
+          $model = new Proveedores();
+
+
+            if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && $submit == false) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->save()) {
+                    $model->refresh();
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return [
+                        'message' => '¡Éxito!',
+                    ];
+                } else {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($model);
+                }
+    }
+
+    return $this->renderAjax('_form_modal', [
+        'model' => $model,
+    ]);
+}
+
+
+
 
     /**
      * Creates a new Proveedores model.
@@ -106,7 +144,7 @@ class ProveedoresController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        
     }
 
     /**

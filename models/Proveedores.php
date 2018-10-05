@@ -23,12 +23,16 @@ class Proveedores extends \yii\db\ActiveRecord
         return 'proveedores';
     }
 
+
+    
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
+        [['rif','razon'],'required'],
             [['rif'], 'string', 'max' => 20],
             [['razon'], 'string', 'max' => 200],
             [['rif'], 'unique'],

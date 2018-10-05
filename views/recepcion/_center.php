@@ -4,7 +4,7 @@ use kartik\helpers\Html;
 use kartik\helpers\Enum;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use common\models\Productos;
+use app\models\Productos;
 use yii\helpers\Url;
 use yii\web\Response;
 use kartik\widgets\Select2;
@@ -12,7 +12,7 @@ use yii\bootstrap\Modal;
 use yii\web\View;
 use yii\web\JsExpression;
 use kartik\editable\Editable;
-$url =Url::to(['product-list']);
+$url =Url::to(['productos-list']);
 use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 use kartik\widgets\ActiveForm;
@@ -56,13 +56,27 @@ $this->registerJs($formatJs, View::POS_HEAD);
 <?=
 
 
-($searchModel->idMov->status==0 ?
+($searchModel->recep->status==0 ?
 Select2::widget([
     'name' => 'id_prod',
     'value' => '1',
     'size' => Select2::LARGE,
-    'initValueText' => 'Consultar Bienes...',
-    'options' => ['placeholder' => 'Buscar Bienes'],
+    'initValueText' => 'Consultar Productos...',
+    'options' => ['placeholder' => 'Buscar Productos'],
+
+    'addon' => [
+      'append' => [
+          'content' => Html::button('<i class="fa fa-plus"></i>',[
+            'id' => 'activity-index-link',
+            'class' => 'btn btn-success',
+            'data-toggle' => 'modal',
+            'data-target' => '#modal',
+            'data-url' => Url::to(['productos/modal']),
+            'data-pjax' => '0',
+          ]),
+            'asButton' => true
+        ]
+    ],
 
 
     'pluginOptions' => [
@@ -87,14 +101,14 @@ Select2::widget([
           // creamos peticion ajax ----
           $.ajax(
                 {
-                  url : 'index.php?r=procesos%2Fmovimientos%2Fadd-items',
+                  url : 'index.php?r=recepcion%2Fadd-items',
                   type: 'GET',
-                  data : {'id_mov': '$searchModel->id_mov', 'id_bien':$(this).val()},
+                  data : {'id_trans': '$searchModel->id_recep', 'id_prod':$(this).val()},
                   DataType:'JSON',
                 })
                   .done(function(data) {
                     if (data.result==null){
-                        $.pjax.reload({container:'#grid-movimientos-dt'});
+                        $.pjax.reload({container:'#grid-recepciones-detail'});
                     }  else {
                       krajeeDialog.alert(data.result);
                     }
@@ -169,7 +183,7 @@ Select2::widget([
                 'buttons' => [
                   'delete' => function ($url,$model, $key) {
                         $url=Url::to(['recepciones-detail/delete','id'=>$model->id]);
-                        return ($model->idMov->status==0 ? Html::a('<span class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-120"></i></span> ', '#', [
+                        return ($model->recep->status==0 ? Html::a('<span class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-120"></i></span> ', '#', [
                             'title' => Yii::t('yii', 'Eliminar Items'),
                             'aria-label' => Yii::t('yii', 'Delete'),
                             'onclick' => "
@@ -185,7 +199,7 @@ Select2::widget([
                                       //$('.alert-d-ant').html('<strong>Error!</strong> El Registro no se pudo eliminar').show().fadeOut(2000);
                                     },
                                     success: function (json){
-                                      $.pjax.reload({container: '#grid-movimientos-dt'});
+                                      $.pjax.reload({container: '#grid-recepciones-detail'});
                                       //$('.alert-s-ant').html('<strong>Felicitaciones!</strong> El Registro a sido Eliminado con Exito').show().fadeOut(2000);
                                     },
 
@@ -223,16 +237,47 @@ Select2::widget([
 
             
 
+            [
+              'class' => 'kartik\grid\EditableColumn',
+              'attribute' => 'cnt_facturada', 
+              'readonly' => function($model, $key, $index, $widget) {
+                  return ($model->recep->status); // do not allow editing of inactive records
+              },
+              'editableOptions' => [
+                  'header' => 'Facturada',
+                  'asPopover' => false, 
+                  'inputType' => \kartik\editable\Editable::INPUT_SPIN,
+                  'options' => [
+                      'pluginOptions' => ['min' => 0, 'max' => 5000]
+                  ]
+              ],
+              'hAlign' => 'right', 
+              'vAlign' => 'middle',
+              'width' => '20%',
+              'format' => ['decimal', 2],
+              'pageSummary' => true
+          ],
 
-            
-          
-
-            
-              
-
-
-      'cnt_facturada',
-       'cnt_recibida',
+          [
+              'class' => 'kartik\grid\EditableColumn',
+              'attribute' => 'cnt_recibida', 
+              'readonly' => function($model, $key, $index, $widget) {
+                  return ($model->recep->status); // do not allow editing of inactive records
+              },
+              'editableOptions' => [
+                  'header' => 'Recibida',
+                  'asPopover' => false, 
+                  'inputType' => \kartik\editable\Editable::INPUT_SPIN,
+                  'options' => [
+                      'pluginOptions' => ['min' => 0, 'max' => 5000]
+                  ]
+              ],
+              'hAlign' => 'right', 
+              'vAlign' => 'middle',
+              'width' => '20%',
+              'format' => ['decimal', 2],
+              'pageSummary' => true
+          ],  
       // 'web',
       // 'contacto',
       // 'tel_contacto',

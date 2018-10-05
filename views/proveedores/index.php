@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'pjaxSettings'=>[
         'neverTimeout'=>true,
         'options'=>[
-          'id'=>'grid-tipos-doc',
+          'id'=>'grid-proveedor',
         ],
     ],
     'panel' => [
@@ -96,12 +96,12 @@ $this->params['breadcrumbs'][] = $this->title;
                       'template' => '{delete}',
                       'buttons' => [
                         'delete' => function ($url,$model, $key) {
-                              $url=Url::to(['archivo-doc-tipos/delete','id'=>$model->id]);
+                              $url=Url::to(['proveedores/delete','id'=>$model->id]);
                               return Html::a('<span class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-120"></i></span> ', '#', [
                                   'title' => Yii::t('yii', 'Delete'),
                                   'aria-label' => Yii::t('yii', 'Delete'),
                                   'onclick' => "
-                                  krajeeDialog.confirm('Esta seguro de eliminar el Tipo de Documento:  ' +  '$model->rif', function (result) {
+                                  krajeeDialog.confirm('Esta seguro de eliminar el Proveedor:  ' +  '$model->rif', function (result) {
                                        if (result) {
                                           $.ajax({
 
@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             $('.alert-d-ant').html('<strong>Error!</strong> El Registro no se pudo eliminar').show().fadeOut(2000);
                                           },
                                           success: function (json){
-                                            $.pjax.reload({container: '#grid-tipos-doc'});
+                                            $.pjax.reload({container: '#grid-proveedor'});
                                             $('.alert-s-ant').html('<strong>Felicitaciones!</strong> El Registro a sido Eliminado con Exito').show().fadeOut(2000);
                                           },
 

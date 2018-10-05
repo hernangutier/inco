@@ -4,11 +4,18 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Recepcion;
+use app\models\Productos;
+use app\models\Proveedores;
 use app\models\RecepcionesDetail;
+use app\models\RecepcionesDetailSearch;
 use app\models\RecepcionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use  yii\db\Query;
+use yii\web\Response;
+use yii\helpers\Url;
+use yii\helpers\Json;
 
 /**
  * RecepcionController implements the CRUD actions for Recepcion model.
@@ -91,6 +98,20 @@ class RecepcionController extends Controller
 
         }
 
+      }
+
+      $searchModel = new RecepcionesDetailSearch();
+      $searchModel->id_recep=$id;
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+            'searchModel'=>$searchModel,
+            'dataProvider'=>$dataProvider
+        ]);
+
+      }  
+
         
 
 
@@ -105,7 +126,7 @@ class RecepcionController extends Controller
         $model = new Recepcion();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['create']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -162,4 +183,71 @@ class RecepcionController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionProductosList($q = null, $id = null) {
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    $out = ['results' => ['id' => '', 'ref' => '','descripcion'=>'']];
+    if (!is_null($q)) {
+        $query = new Query;
+        $query->select('*')
+            ->from('vw_productos')
+            ->where(['like', 'tostring', $q])
+            ->limit(40);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out['results'] = array_values($data);
+    }
+    elseif ($id > 0) {
+        $out['results'] = ['id' => $id, 'codigo'=>Productos::find($id)->codigo, 'descripcion' => Productos::find($id)->descripcion];
+    }
+    return $out;
+    }
+
+    public function actionAddItems($id_trans,$id_prod)
+    {
+      
+      Yii::$app->response->format = Response::FORMAT_JSON;
+      $model= new RecepcionesDetail();
+        $model->id_recep=$id_trans;
+        $model->id_prod=$id_prod;
+        $model->cnt_facturada=1;
+        $model->cnt_recibida=1;
+        
+
+        
+        
+
+        if ($model->save()){
+          return $error=false;
+        } else {
+          return $error=true;
+        }
+    }
+
+
+
+    public function actionProvidersList($q = null, $id = null) {
+    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    $out = ['results' => ['id' => '', 'rif' => '','razon'=>'']];
+    if (!is_null($q)) {
+        $query = new Query;
+        $query->select('*')
+            ->from('vw_providers')
+            ->where(['like', 'tostring', $q])
+            ->limit(40);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out['results'] = array_values($data);
+    }
+    elseif ($id > 0) {
+        $out['results'] = ['id' => $id, 'rif'=>Proveedores::find($id)->rif, 'razon' => Proveedores::find($id)->razon];
+    }
+    return $out;
+    }
+
+
+    
+
+
+
 }

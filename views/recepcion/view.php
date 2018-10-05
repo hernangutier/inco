@@ -19,6 +19,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <?php
+    $this->registerJs("
+           $(document).on('click', '#activity-index-link', (function() {
+        $('.tl').text('Nuevo Producto');
+        $.get(
+
+            $(this).data('url'),
+            function (data) {
+                $('.modal-body').html(data);
+                $('#modal-productos').modal();
+            }
+        );
+    }));
+    ");
+?>
+
+
+<?php
+
+
 
 $this->registerJs("
 
@@ -68,7 +87,7 @@ $(document).on('click','.add',function (){
 
 <?php
 Modal::begin([
-    'id' => 'modal-documentos',
+    'id' => 'modal-productos',
     'header' => '<h4 class="blue bigger tl">Nuevo Articulo</h4>',
 
 ]);

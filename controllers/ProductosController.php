@@ -12,7 +12,7 @@ use  yii\db\Query;
 use yii\web\Response;
 use yii\helpers\Url;
 use yii\helpers\Json;
-
+use yii\widgets\ActiveForm;
 /**
  * ProductosController implements the CRUD actions for Productos model.
  */
@@ -199,4 +199,32 @@ class ProductosController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionModal($submit = false)
+        {
+          $model = new Productos();
+
+
+            if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && $submit == false) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->save()) {
+                    $model->refresh();
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return [
+                        'message' => '¡Éxito!',
+                    ];
+                } else {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($model);
+                }
+    }
+
+    return $this->renderAjax('_form_modal', [
+        'model' => $model,
+    ]);
+}
 }

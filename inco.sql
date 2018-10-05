@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
+-- version 4.5.4.1deb2ubuntu2.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 04, 2018 at 06:01 AM
--- Server version: 5.6.35-1+deb.sury.org~xenial+0.1
--- PHP Version: 5.6.35-1+ubuntu16.04.1+deb.sury.org+1
+-- Generation Time: Oct 05, 2018 at 06:59 PM
+-- Server version: 5.7.23-0ubuntu0.16.04.1
+-- PHP Version: 5.6.38-1+ubuntu16.04.1+deb.sury.org+2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -343,12 +343,12 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `ref`, `descripcion`, `und`, `costo`, `percent_utilidad`, `pvp`, `is_public`, `id_marca`, `id_grupo`, `min_venta`) VALUES
-(8, '440-001', 'TUBO PVC 1/2*3MTS CONDUIT BLANCO FESTA\r\n', 'UND', '1200.8900', '30.0000', '0.0000', 1, 28, 17, 6),
-(9, '440-002', 'TUBO PVC 3/4*3MTS CONDUIT BLANCO FESTA\r\n', 'UND', '1000.0000', '30.0000', '0.0000', 1, 28, 17, 6),
+(8, '440-001', 'TUBO PVC 1/2*3MTS CONDUIT BLANCO FESTA\r\n', 'UND', '13455.8900', '30.0000', '0.0000', 1, 28, 17, 6),
+(9, '440-002', 'TUBO PVC 3/4*3MTS CONDUIT BLANCO FESTA\r\n', 'UND', '1345.9000', '30.0000', '0.0000', 1, 28, 17, 6),
 (10, '440-005', 'TUBO PVC 1"*3MTS CONDUIT BLANCO FESTA\r\n', 'UND', '5677.0000', '30.0000', '0.0000', 1, 28, 17, 5),
 (11, '440-006', 'TUBO PVC 1"1/2*3MTS CONDUIT BLANCO FESTA\r\n', NULL, '1230.9800', '30.0000', '0.0000', 1, 28, 17, NULL),
 (12, '440-003', 'CURVA PVC 1/2*90 CONDUIT BLANCO FESTA\r\n', 'UND', '345.8900', '30.0000', '0.0000', 1, 28, 17, 25),
-(13, '440-004', 'CURVA PVC 3/4*90 CONDUIT BLANCO FESTA\r\n', NULL, '3456.0000', '30.0000', '0.0000', 0, 28, 17, NULL),
+(13, '440-004', 'CURVA PVC 3/4*90 CONDUIT BLANCO FESTA\r\n', NULL, '3456.0000', '30.0000', '0.0000', 1, 28, 17, NULL),
 (14, '440-007', 'CURVA PVC 1"*90 CONDUIT BLANCO FESTA\r\n', 'UND', '1459.0900', '30.0000', '0.0000', 0, 28, 17, 100),
 (15, '440-008', 'CURVA PVC 1 1/2*90 CONDUIT BLANCO FESTA\r\n', NULL, '1345.9000', '30.0000', '0.0000', 0, 28, 17, NULL),
 (16, '444-006', 'CAJETIN 4*2 PLASTICO TRANSLUCIDO FESTA\r\n', 'UND', '345.0000', '30.0000', '0.0000', 1, 28, 18, 6),
@@ -391,7 +391,10 @@ CREATE TABLE `proveedores` (
 
 INSERT INTO `proveedores` (`id`, `rif`, `razon`) VALUES
 (1, 'J304030012', 'FERRE AGRO EL PILAR C.A.'),
-(2, 'J6776776', 'MAXI-FER C.A.');
+(2, 'J6776776', 'MAXI-FER C.A.'),
+(3, 'V213323424', 'FEBECA C.A.'),
+(6, 'J000819963', 'PRO-LIFE, C.A'),
+(7, 'J000654042', 'TRICAL DE VENEZUELA, C.A.');
 
 -- --------------------------------------------------------
 
@@ -402,21 +405,24 @@ INSERT INTO `proveedores` (`id`, `rif`, `razon`) VALUES
 CREATE TABLE `recepcion` (
   `id` int(11) NOT NULL,
   `nfact` varchar(20) DEFAULT NULL,
-  `id_prov` int(11) DEFAULT NULL,
+  `id_prov` int(11) NOT NULL,
   `date_creation` datetime DEFAULT NULL,
   `date_recive` datetime NOT NULL,
   `observaciones` varchar(400) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  `is_incidencia` int(11) DEFAULT NULL,
-  `ncontrol` int(11) NOT NULL
+  `status` int(11) DEFAULT '0',
+  `is_incidencia` int(11) DEFAULT '0',
+  `ncontrol` int(11) NOT NULL,
+  `tipo` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `recepcion`
 --
 
-INSERT INTO `recepcion` (`id`, `nfact`, `id_prov`, `date_creation`, `date_recive`, `observaciones`, `status`, `is_incidencia`, `ncontrol`) VALUES
-(7, '56656', 1, NULL, '2018-10-02 00:00:00', NULL, NULL, 0, 1);
+INSERT INTO `recepcion` (`id`, `nfact`, `id_prov`, `date_creation`, `date_recive`, `observaciones`, `status`, `is_incidencia`, `ncontrol`, `tipo`) VALUES
+(7, '56656', 1, NULL, '2018-10-02 00:00:00', NULL, 0, 0, 1, 0),
+(8, '455455', 6, NULL, '2018-10-04 00:00:00', NULL, 0, 0, 2, 0),
+(9, '78788', 3, NULL, '2018-10-02 00:00:00', NULL, 0, 0, 3, 0);
 
 --
 -- Triggers `recepcion`
@@ -436,11 +442,35 @@ DELIMITER ;
 
 CREATE TABLE `recepciones_detail` (
   `id` int(11) NOT NULL,
-  `id_prod` varchar(45) DEFAULT NULL,
+  `id_prod` int(11) DEFAULT NULL,
   `cnt_facturada` int(11) NOT NULL,
   `cnt_recibida` int(11) NOT NULL,
   `id_recep` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_productos`
+--
+CREATE TABLE `vw_productos` (
+`id` int(11)
+,`ref` varchar(45)
+,`descripcion` varchar(400)
+,`tostring` varchar(446)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_providers`
+--
+CREATE TABLE `vw_providers` (
+`id` int(11)
+,`rif` varchar(20)
+,`razon` varchar(200)
+,`tostring` varchar(221)
+);
 
 -- --------------------------------------------------------
 
@@ -464,6 +494,24 @@ INSERT INTO `zonas` (`id`, `ref`, `denominacion`, `descripcion`, `percent`) VALU
 (1, '001', 'COROZO-SANTA-BARBARA', 'EL COROZO SOCOPO-SANTA BARBARA', '0.02'),
 (2, '002', 'BARINAS ', 'BARINAS CASCO DE LA CIIUDAD', '0.03'),
 (3, '003', 'PORTUGUESA GUANARE', 'GUANARE-GUANARITO', '0.07');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_productos`
+--
+DROP TABLE IF EXISTS `vw_productos`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_productos`  AS  select `p`.`id` AS `id`,`p`.`ref` AS `ref`,`p`.`descripcion` AS `descripcion`,concat(`p`.`ref`,' ',`p`.`descripcion`) AS `tostring` from `productos` `p` order by concat(`p`.`ref`,' ',`p`.`descripcion`) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_providers`
+--
+DROP TABLE IF EXISTS `vw_providers`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_providers`  AS  select `p`.`id` AS `id`,`p`.`rif` AS `rif`,`p`.`razon` AS `razon`,concat(`p`.`rif`,' ',`p`.`razon`) AS `tostring` from `proveedores` `p` order by concat(`p`.`rif`,' ',`p`.`razon`) ;
 
 --
 -- Indexes for dumped tables
@@ -618,17 +666,17 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT for table `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `recepcion`
 --
 ALTER TABLE `recepcion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `recepciones_detail`
 --
 ALTER TABLE `recepciones_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `zonas`
 --
@@ -681,7 +729,7 @@ ALTER TABLE `recepcion`
 -- Constraints for table `recepciones_detail`
 --
 ALTER TABLE `recepciones_detail`
-  ADD CONSTRAINT `fk_recepciones_detail_1` FOREIGN KEY (`id_prod`) REFERENCES `productos` (`ref`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_recepciones_detail_1` FOREIGN KEY (`id_prod`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_recepciones_detail_2` FOREIGN KEY (`id_recep`) REFERENCES `recepcion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
