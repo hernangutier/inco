@@ -19,6 +19,8 @@ use Yii;
  * @property int $id_grupo
  * @property int $min_venta
  * @property string $und_medida
+ * @property int $e_in_inv
+ * @property int $e_out_inv
  *
  * @property Marcas $marca
  * @property Grupos $grupo
@@ -40,7 +42,7 @@ class Productos extends \yii\db\ActiveRecord
     {
         return [
             [['ref','descripcion'], 'required'],
-            [['id', 'is_public', 'id_marca', 'id_grupo','min_venta'], 'integer'],
+            [['id', 'is_public', 'id_marca', 'id_grupo','min_venta','e_in_inv', 'e_out_inv'], 'integer'],
             [['costo', 'percent_utilidad', 'pvp'], 'number'],
             [['ref', 'und'], 'string', 'max' => 45],
             [['descripcion'], 'string', 'max' => 400],
@@ -68,6 +70,8 @@ class Productos extends \yii\db\ActiveRecord
             'id_marca' => 'Marcas',
             'id_grupo' => 'Grupos de Inventario',
             'min_venta'=>'Minimo a Facturar',
+            'e_in_inv' => 'Existencia en Sistema',
+            'e_out_inv' => 'Existeencia fuera de Sistema',
         ];
     }
 

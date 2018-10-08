@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                   'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="btn btn-xs btn-primary"><i class="ace-icon fa fa-refresh bigger-120"></i></span> ',
-                            Url::to(['recepcion/update','id'=>$model->id]), [
+                            Url::to(['proveedores/update','id'=>$model->id]), [
                             'id' => 'activity-index-link',
                             'title' => Yii::t('app', 'Actualizar'),
 
@@ -131,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'rif',
             'razon',
-            
+
 
         ],
     ]); ?>

@@ -4,8 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\dialog\Dialog;
 use yii\bootstrap\Modal;
-
-
+use app\models\Productos;
+use kartik\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Recepciones */
 /* @var $searchModel app\models\RecepcionesDetailSearch */
@@ -33,6 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
     }));
     ");
 ?>
+
+
 
 
 <?php
@@ -88,6 +90,9 @@ $(document).on('click','.add',function (){
 <?php
 Modal::begin([
     'id' => 'modal-productos',
+    'options'=>[
+      'tabindex'=>false,
+    ],
     'header' => '<h4 class="blue bigger tl">Nuevo Articulo</h4>',
 
 ]);
@@ -106,5 +111,3 @@ Modal::end();
       <?= Yii::$app->controller->renderPartial('_center',['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]); ?>
   </div>
   </div>
-
-  

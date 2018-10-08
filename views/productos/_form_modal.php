@@ -103,14 +103,14 @@ use app\models\Productos;
 <?php
 $this->registerJs('
     // obtener la id del formulario y establecer el manejador de eventos
-        $("form#articulos-form").on("beforeSubmit", function(e) {
+        $("form#productos-form").on("beforeSubmit", function(e) {
             var form = $(this);
             $.post(
                 form.attr("action")+"&submit=true",
                 form.serialize()
             )
             .done(function(result) {
-              $("#modal-inventario-init").modal("hide");
+              $("#modal-productos").modal("hide");
 
             });
             return false;
