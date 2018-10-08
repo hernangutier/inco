@@ -97,12 +97,12 @@ $this->params['breadcrumbs'][] = $this->title;
                       'template' => '{delete}',
                       'buttons' => [
                         'delete' => function ($url,$model, $key) {
-                              $url=Url::to(['archivo-doc-tipos/delete','id'=>$model->id]);
+                              $url=Url::to(['recepcion/anular','id'=>$model->id]);
                               return Html::a('<span class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-120"></i></span> ', '#', [
-                                  'title' => Yii::t('yii', 'Delete'),
+                                  'title' => Yii::t('yii', 'Anular Documento'),
                                   'aria-label' => Yii::t('yii', 'Delete'),
                                   'onclick' => "
-                                  krajeeDialog.confirm('Esta seguro de eliminar el Tipo de Documento:  ' +  '$model->nfact', function (result) {
+                                  krajeeDialog.confirm('Esta seguro de Anular la Recepcion:  ' +  '$model->nfact', function (result) {
                                        if (result) {
                                           $.ajax({
 
@@ -131,10 +131,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
               'attribute'=>'ncontrol',
-              'value'=>function($model){
-                return $model->getNControlFormat();
-              }
+               'value'=>function ($searchModel, $key, $index, $widget) {
+                return Html::a($searchModel->getNControlFormat(),
+                    ['view','id'=>$searchModel->id],
+                    ['title'=>'Administrar Recepción' ]);
+            },
+            'format'=>'raw',
             ],
+
             'nfact',
             'date_recive',
             ['attribute'=>'id_prov',
@@ -156,6 +160,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->getIncidenciaHtml();
               },
               'format'=>'raw',
+            ],
+
+            [
+              'attribute'=>'status',
+              'value'=>function ($searchModel){
+                return $searchModel->getStatusHtml();
+              },
+              'format'=>'raw',
+              'filter' => Html::activeDropDownList($searchModel,
+              'status', ['0'=>'Pendiente','1'=>'Procesado','2'=>'Anulado'],['class'=>'form-control','prompt' => 'No Filtro']),
+
             ],
 
         ],

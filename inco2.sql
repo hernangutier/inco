@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
+-- version 4.5.4.1deb2ubuntu2.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 08, 2018 at 06:54 AM
--- Server version: 5.6.35-1+deb.sury.org~xenial+0.1
--- PHP Version: 5.6.35-1+ubuntu16.04.1+deb.sury.org+1
+-- Generation Time: Oct 08, 2018 at 05:49 PM
+-- Server version: 5.7.23-0ubuntu0.16.04.1
+-- PHP Version: 5.6.38-1+ubuntu16.04.1+deb.sury.org+2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,41 @@ SET time_zone = "+00:00";
 --
 -- Database: `inco`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `fc_upd_recepciones_detail` (IN `idprod` INT)  MODIFIES SQL DATA
+BEGIN
+
+declare codprod,cnt integer;
+
+DECLARE fin INTEGER DEFAULT 0;
+
+DECLARE runners_cursor CURSOR FOR
+   SELECT id_prod, cnt_recibida FROM recepciones_detail where         						
+   id_recep=idprod;
+   
+   DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin=1;
+   
+   OPEN runners_cursor;
+  get_runners: LOOP
+    FETCH runners_cursor INTO codprod, cnt;
+    IF fin = 1 THEN
+       LEAVE get_runners;
+    END IF;
+
+  UPDATE productos SET e_in_inv=e_in_inv+cnt WHERE id=codprod;
+
+
+  END LOOP get_runners;
+
+  CLOSE runners_cursor;
+
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -116,40 +151,103 @@ INSERT INTO `comisiones_dt` (`id`, `id_com`, `nfact`, `id_client`, `base_i`, `da
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `departamentos`
+--
+
+CREATE TABLE `departamentos` (
+  `id` int(11) NOT NULL,
+  `descripcion` varchar(300) NOT NULL,
+  `ref` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `departamentos`
+--
+
+INSERT INTO `departamentos` (`id`, `descripcion`, `ref`) VALUES
+(1, 'DECORACIÓN', '1'),
+(2, 'HOGAR', '2'),
+(3, 'FERRETERIA', '3'),
+(4, 'CONSTRUCCIÓN', '4'),
+(5, 'AGRO-INDUSTRIAL', '5');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `grupos`
 --
 
 CREATE TABLE `grupos` (
   `id` int(11) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
-  `ref` varchar(3) DEFAULT NULL
+  `ref` varchar(3) DEFAULT NULL,
+  `id_lin` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `grupos`
 --
 
-INSERT INTO `grupos` (`id`, `descripcion`, `ref`) VALUES
-(1, 'CLAVOS Y GRAPAS', '300'),
-(2, 'BOMBAS HIDRONEUMATICOS Y MOTORES ELECTRICOS', '501'),
-(3, 'MATERIALES DE CERCADO', '531'),
-(4, 'BIDONES SACOS ETC.', '530'),
-(5, 'HERRAMIENTAS MANUALES', '502'),
-(6, 'EQUIPOS Y ACCESORIOS MANUALES', '500'),
-(7, 'ELECTROSOLDADOS', '460'),
-(8, 'VARIOS', '402'),
-(9, 'MALLAS DE CERCADO', '400'),
-(10, 'ADITIVOS', '401'),
-(11, 'ACCESORIOS DE PLOMERIA', '450'),
-(12, 'VALVULAS DE PLOMERIA', '451'),
-(13, 'CONEXIONES AGUAS SERVIDAS', '410'),
-(14, 'TUBERIAS DE AGUAS SERVIDAS', '411'),
-(15, 'CONEXIONES AGUAS CALIENTES', '430'),
-(16, 'CONEXIONES AGUAS BLANCAS', '420'),
-(17, 'TUBERIAS Y CONEXIONES ELECTRICAS', '440'),
-(18, 'CAJETINES', '444'),
-(19, 'CUCHILLAS DE PORCELANA', '443'),
-(20, 'ENCHUFES VARIOS', '448');
+INSERT INTO `grupos` (`id`, `descripcion`, `ref`, `id_lin`) VALUES
+(1, 'CLAVOS Y GRAPAS', '300', 14),
+(2, 'BOMBAS HIDRONEUMATICOS Y MOTORES ELECTRICOS', '501', 25),
+(3, 'MATERIALES DE CERCADO', '531', 28),
+(4, 'BIDONES SACOS ETC.', '530', 28),
+(5, 'HERRAMIENTAS MANUALES', '502', 25),
+(6, 'EQUIPOS Y ACCESORIOS MANUALES', '500', 25),
+(7, 'ELECTROSOLDADOS', '460', 20),
+(8, 'VARIOS', '402', 21),
+(9, 'MALLAS DE CERCADO', '400', 21),
+(10, 'ADITIVOS', '401', 21),
+(11, 'ACCESORIOS PARA PLOMERIA', '450', 22),
+(12, 'VALVULAS DE PLOMERIA', '451', 22),
+(13, 'CONEXIONES AGUAS SERVIDAS', '410', 23),
+(14, 'TUBERIAS DE AGUAS SERVIDAS', '411', 23),
+(15, 'CONEXIONES AGUAS CALIENTES', '430', 24),
+(16, 'CONEXIONES AGUAS BLANCAS', '420', 18),
+(17, 'TUBERIAS Y CONEXIONES ELECTRICAS', '440', 19),
+(18, 'CAJETINES', '444', 19),
+(19, 'CUCHILLAS DE PORCELANA', '443', 19),
+(20, 'ENCHUFES VARIOS', '448', 19),
+(21, 'CEMENTOS Y CONCRETOS', '403', 21),
+(22, 'ESTUCOS Y PASTAS PROFESIONALES', '100', 4),
+(23, 'ARTICULOS DE PEZCA', '202', 11),
+(24, 'BISAGRAS', '303', 14),
+(25, 'ACCESORIOS DE JARDINERIA', '120', 1),
+(26, 'PEGAMENTOS', '130', 2),
+(27, 'CINTAS ESPECIALES DE EMBALAR', '131', 2),
+(28, 'BOMBILLOS', '110', 3),
+(29, 'FONDOS DE HERRERIA', '102', 4),
+(30, 'SOLVENTES', '103', 4),
+(31, 'PINTURA OLEO, CAUCHO Y MADERA', '101', 4),
+(32, 'PEGAS EPOXICAS', '350', 12),
+(33, 'PEGAMENTOS INSTANTANEOS', '351', 12),
+(34, 'LIJAS', '330', 13),
+(35, 'VARIOS', '302', 14),
+(36, 'CLAVOS Y GRAPAS', '301', 14),
+(37, 'DISCOS DE CORTE', '321', 15),
+(38, 'ELECTRODOS Y ACCESORIOS', '320', 15),
+(39, 'HERRAMIENTAS MANUALES', '341', 16),
+(40, 'HERRAMIENTAS ELECTRICAS', '342', 16),
+(41, 'CANDADOS', '311', 17),
+(42, 'CERRADURAS DE TODOS TIPOS', '312', 17),
+(43, 'LINEA BLANCA', '260', 5),
+(44, 'KIT DE INSTALCIÓN WC Y LAVAMANOS', '221', 6),
+(45, 'ENVACES, SILLAS, MESAS ETC.', '240', 7),
+(46, 'ACCESORIOS DE COCINA', '210', 8),
+(47, 'ACCESORIOS DE BAÑO', '211', 8),
+(48, 'GRIFERIA DE BAÑOS', '212', 8),
+(49, 'ORGANIZACION', '250', 9),
+(50, 'DESINFECTANTES', '230', 10),
+(51, 'LINTERNAS, LAMPARAS ETC.', '201', 11),
+(52, 'CAVAS, HIELERAS Y TERMOS', '200', 11),
+(53, 'CABLES Y CONDUCTORES', '449', 19),
+(54, 'ARTICULOS ELECTRICOS', '441', 19),
+(55, 'ACCESORIOS VARIOS DE ELECTRICIDAD', '442', 19),
+(56, 'PROTECTORES DE VOLTAJE', '445', 19),
+(57, 'SOCATES Y RECEPTACULOS', '446', 19),
+(58, 'INTERRUPTORES, TOMAS Y BREAKERS', '447', 19),
+(59, 'ACCESORIOS DE SEGURIDAD INDUSTRIAL', '510', 26);
 
 -- --------------------------------------------------------
 
@@ -185,6 +283,53 @@ CREATE TABLE `inv_master` (
 
 INSERT INTO `inv_master` (`id`, `fecha_ini`, `ncontrol`, `descripcion`, `status`) VALUES
 (1, NULL, NULL, 'INVENTARIO DE AUDITORIA', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lineas`
+--
+
+CREATE TABLE `lineas` (
+  `id` int(11) NOT NULL,
+  `id_dep` int(11) NOT NULL,
+  `ref` varchar(10) NOT NULL,
+  `descripcion` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `lineas`
+--
+
+INSERT INTO `lineas` (`id`, `id_dep`, `ref`, `descripcion`) VALUES
+(1, 1, '12', 'JARDINERIA'),
+(2, 1, '13', 'PEGAMENTOS Y CINTAS'),
+(3, 1, '11', 'ILUMINACIÓN'),
+(4, 1, '10', 'PINTURAS'),
+(5, 2, '26', 'ARTEFACTOS DEL HOGAR'),
+(6, 2, '22', 'PLOMERIA Y GRIFERIAS'),
+(7, 2, '24', 'ARTICULOS PLASTICOS  DEL HOGAR'),
+(8, 2, '21', 'BAÑOS Y COCINAS'),
+(9, 2, '25', 'MUEBLES Y ACCESORIOS'),
+(10, 2, '23', 'LIMPIEZA'),
+(11, 2, '20', 'CAMPING'),
+(12, 3, '35', 'PEGAMENTOS Y CEMENTO PLASTICO'),
+(13, 3, '33', 'ACCESORIOS HERRAMIENTAS Y MAQ.'),
+(14, 3, '30', 'UNION Y SUJECIÓN'),
+(15, 3, '32', 'HERRERIA Y ABRACIVOS'),
+(16, 3, '34', 'HERRAMIENTAS'),
+(17, 3, '31', 'CERRAJERIA'),
+(18, 4, '42', 'AGUAS BLANCAS'),
+(19, 4, '44', 'ELECTRICIDAD'),
+(20, 4, '46', 'HERRERIA'),
+(21, 4, '40', 'MATERIALES DE CONSTRUCCIÓN'),
+(22, 4, '45', 'PLOMERIA EN GENERAL'),
+(23, 4, '41', 'AGUAS SERVIDAS'),
+(24, 4, '43', 'AGUAS CALIENTES'),
+(25, 5, '50', 'HERRAMIENTAS Y EQUIPOS MANUALES'),
+(26, 5, '51', 'SEGURIDAD INDUSTRIAL'),
+(27, 5, '52', 'EQUIPOS ELECT. Y COMBUSTION'),
+(28, 5, '53', 'INSUMOS AGROINDUSTRIALES');
 
 -- --------------------------------------------------------
 
@@ -375,7 +520,7 @@ INSERT INTO `productos` (`id`, `ref`, `descripcion`, `und`, `costo`, `percent_ut
 (35, '450-012', 'TEFLON 1/2 DIESEL TOOLS\r\n', 'UND', '0.0000', '30.0000', '0.0000', 1, 20, 2, 24, 0, 0),
 (36, '451-002', 'LLAVE D/CHORRO PVC 1/2" PLASTICA GENERICA\r\n', 'UND', '0.0000', '30.0000', '0.0000', 1, 30, 12, 6, 0, 0),
 (37, '451-003', 'LLAVE D/CHORRO PVC 1/2 "PLASTICA FERMETAL\r\n', 'UND', '0.0000', '30.0000', '0.0000', 1, 27, 12, 6, 0, 0),
-(38, '300-099', 'CAL X SACO SUPRACAL', 'SACO', '0.0000', '30.0000', '0.0000', 1, 117, 12, 6, 0, 0);
+(38, '300-099', 'CAL HIDRATADA 8 KG SUPRACAL', 'SACO', '0.0000', '30.0000', '0.0000', 1, 117, 12, 6, 840, 0);
 
 -- --------------------------------------------------------
 
@@ -399,7 +544,9 @@ INSERT INTO `proveedores` (`id`, `rif`, `razon`) VALUES
 (3, 'V213323424', 'FEBECA C.A.'),
 (6, 'J000819963', 'PRO-LIFE, C.A'),
 (7, 'J000654042', 'TRICAL DE VENEZUELA, C.A.'),
-(8, '0000', 'SUPRACAL C.A.');
+(8, 'j085039970', 'SUPRACAL,  C.A.'),
+(9, 'J000384118', 'VICSON, S.A.'),
+(10, 'J000472912', 'FERRETERIA EL LLANO, C.A');
 
 -- --------------------------------------------------------
 
@@ -425,10 +572,11 @@ CREATE TABLE `recepcion` (
 --
 
 INSERT INTO `recepcion` (`id`, `nfact`, `id_prov`, `date_creation`, `date_recive`, `observaciones`, `status`, `is_incidencia`, `ncontrol`, `tipo`) VALUES
-(7, '56656', 1, NULL, '2018-10-02 00:00:00', NULL, 0, 0, 1, 0),
-(8, '455455', 6, NULL, '2018-10-04 00:00:00', NULL, 0, 0, 2, 0),
-(9, '78788', 3, NULL, '2018-10-02 00:00:00', NULL, 0, 0, 3, 0),
-(10, '8899998', 8, NULL, '2018-10-05 00:00:00', NULL, 0, 0, 4, 0);
+(7, '56656', 1, NULL, '2018-10-02 00:00:00', NULL, 2, 0, 1, 0),
+(8, '455455', 6, NULL, '2018-10-04 00:00:00', NULL, 2, 0, 2, 0),
+(9, '78788', 3, NULL, '2018-10-02 00:00:00', NULL, 2, 0, 3, 0),
+(10, '52168', 8, NULL, '2018-10-05 00:00:00', 'RECEPCION DE 640 SACOS DE CAL HIDRATADA 8 KG.', 1, 0, 4, 0),
+(11, '52169', 8, NULL, '2018-10-05 00:00:00', 'RECEPCION DE 200 SACOS DE CAL HIDRATADA 8 KG.', 1, 0, 5, 0);
 
 --
 -- Triggers `recepcion`
@@ -436,6 +584,16 @@ INSERT INTO `recepcion` (`id`, `nfact`, `id_prov`, `date_creation`, `date_recive
 DELIMITER $$
 CREATE TRIGGER `recepcion_BEFORE_INSERT` BEFORE INSERT ON `recepcion` FOR EACH ROW BEGIN
   set new.ncontrol=(select count(id) + 1 from recepcion);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `recepcion_BEFORE_UPDATE` BEFORE UPDATE ON `recepcion` FOR EACH ROW BEGIN
+ if (new.status=1) THEN
+	CALL  fc_upd_recepciones_detail(new.id);
+ END IF;
+ 
+    
 END
 $$
 DELIMITER ;
@@ -459,7 +617,18 @@ CREATE TABLE `recepciones_detail` (
 --
 
 INSERT INTO `recepciones_detail` (`id`, `id_prod`, `cnt_facturada`, `cnt_recibida`, `id_recep`) VALUES
-(1, 38, 840, 841, 10);
+(1, 38, 640, 640, 10),
+(3, 38, 200, 200, 11);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_lineas`
+--
+CREATE TABLE `vw_lineas` (
+`id` int(11)
+,`descripcion` varchar(311)
+);
 
 -- --------------------------------------------------------
 
@@ -507,6 +676,15 @@ INSERT INTO `zonas` (`id`, `ref`, `denominacion`, `descripcion`, `percent`) VALU
 (1, '001', 'COROZO-SANTA-BARBARA', 'EL COROZO SOCOPO-SANTA BARBARA', '0.02'),
 (2, '002', 'BARINAS ', 'BARINAS CASCO DE LA CIIUDAD', '0.03'),
 (3, '003', 'PORTUGUESA GUANARE', 'GUANARE-GUANARITO', '0.07');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_lineas`
+--
+DROP TABLE IF EXISTS `vw_lineas`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_lineas`  AS  select `lineas`.`id` AS `id`,concat(`lineas`.`ref`,' ',`lineas`.`descripcion`) AS `descripcion` from `lineas` ;
 
 -- --------------------------------------------------------
 
@@ -562,11 +740,18 @@ ALTER TABLE `comisiones_dt`
   ADD KEY `fk_comisiones_dt_2_idx` (`id_com`);
 
 --
+-- Indexes for table `departamentos`
+--
+ALTER TABLE `departamentos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `grupos`
 --
 ALTER TABLE `grupos`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `ref_UNIQUE` (`ref`);
+  ADD UNIQUE KEY `ref_UNIQUE` (`ref`),
+  ADD KEY `id_lin` (`id_lin`);
 
 --
 -- Indexes for table `inv_detail`
@@ -581,6 +766,13 @@ ALTER TABLE `inv_detail`
 --
 ALTER TABLE `inv_master`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `lineas`
+--
+ALTER TABLE `lineas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_dep` (`id_dep`);
 
 --
 -- Indexes for table `marcas`
@@ -651,10 +843,15 @@ ALTER TABLE `comisiones`
 ALTER TABLE `comisiones_dt`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT for table `departamentos`
+--
+ALTER TABLE `departamentos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT for table `grupos`
 --
 ALTER TABLE `grupos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- AUTO_INCREMENT for table `inv_detail`
 --
@@ -665,6 +862,11 @@ ALTER TABLE `inv_detail`
 --
 ALTER TABLE `inv_master`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `lineas`
+--
+ALTER TABLE `lineas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `marcas`
 --
@@ -679,17 +881,17 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT for table `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `recepcion`
 --
 ALTER TABLE `recepcion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `recepciones_detail`
 --
 ALTER TABLE `recepciones_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `zonas`
 --
@@ -719,11 +921,23 @@ ALTER TABLE `comisiones_dt`
   ADD CONSTRAINT `fk_comisiones_dt_2` FOREIGN KEY (`id_com`) REFERENCES `comisiones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `grupos`
+--
+ALTER TABLE `grupos`
+  ADD CONSTRAINT `grupos_ibfk_1` FOREIGN KEY (`id_lin`) REFERENCES `lineas` (`id`);
+
+--
 -- Constraints for table `inv_detail`
 --
 ALTER TABLE `inv_detail`
   ADD CONSTRAINT `fk_inv_detail_1` FOREIGN KEY (`id_prod`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_inv_detail_2` FOREIGN KEY (`id_master`) REFERENCES `inv_master` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `lineas`
+--
+ALTER TABLE `lineas`
+  ADD CONSTRAINT `fk_lineas_1` FOREIGN KEY (`id_dep`) REFERENCES `departamentos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `productos`

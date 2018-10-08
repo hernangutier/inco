@@ -55,7 +55,7 @@ class Recepcion extends \yii\db\ActiveRecord
             'nfact' => 'N° de Factura',
             'id_prov' => 'Proveedor',
             'date_creation' => 'Date Creation',
-            'date_recive' => 'Fecha de Rcepción',
+            'date_recive' => 'Fecha de Recepción',
             'observaciones' => 'Observaciones',
             'status' => 'Status',
             'is_incidencia' => 'Reporta Incidencia',

@@ -64,6 +64,20 @@ class RecepcionController extends Controller
           }
     }
 
+
+    public function actionAnular($id){
+
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $model=$this->findModel($id);
+        $model->status=2;
+          if ($model->save()){
+            return $err=false;
+          } else {
+            return $err=true;
+          }
+    }
+
+
     /**
      * Displays a single Recepcion model.
      * @param integer $id
