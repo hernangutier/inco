@@ -14,6 +14,7 @@ use Yii;
  * @property string $date_recive
  * @property string $observaciones
  * @property int $status
+ * @property string $observaciones
  * @property int $is_incidencia
   * @property int $ncontrol
  *
@@ -37,6 +38,7 @@ class Recepcion extends \yii\db\ActiveRecord
         return [
             [['id_prov', 'status','is_incidencia'], 'integer'],
             [['date_creation', 'date_recive'], 'safe'],
+            [['observaciones'], 'string', 'max' => 400],
             [['date_recive'], 'required'],
             [['nfact'], 'string', 'max' => 20],
             [['id_prov'], 'exist', 'skipOnError' => true, 'targetClass' => Proveedores::className(), 'targetAttribute' => ['id_prov' => 'id']],

@@ -10,6 +10,9 @@ use Yii;
  * @property int $id
  * @property string $descripcion
  * @property string $ref
+ * @property int $id_lin
+ *
+ * @property Lineas $lin
  *
  * @property Productos[] $productos
  */
@@ -30,11 +33,13 @@ class Grupos extends \yii\db\ActiveRecord
     {
         return [
             [['ref','descripcion'], 'required'],
-            [['id'], 'integer'],
+            [['id','id_lin'], 'integer'],
             [['descripcion'], 'string', 'max' => 45],
             [['ref'], 'string', 'max' => 3],
             [['ref'], 'unique'],
+            [['id_lin'], 'required'],
             [['id'], 'unique'],
+            [['id_lin'], 'exist', 'skipOnError' => true, 'targetClass' => Lineas::className(), 'targetAttribute' => ['id_lin' => 'id']],
         ];
     }
 
@@ -47,7 +52,16 @@ class Grupos extends \yii\db\ActiveRecord
             'id' => 'ID',
             'descripcion' => 'Decripcion',
             'ref' => 'Ref',
+            'id_lin'=>'Linea',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLin()
+    {
+        return $this->hasOne(Lineas::className(), ['id' => 'id_lin']);
     }
 
     /**

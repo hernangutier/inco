@@ -6,6 +6,7 @@ use kartik\widgets\ActiveField;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use kartik\money\MaskMoney;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Grupos */
 /* @var $form yii\widgets\ActiveForm */
@@ -29,7 +30,22 @@ use kartik\money\MaskMoney;
     <fieldset>
 
 
+        <?php //-------------- Cargo -------------
 
+                              echo $form->field($model, 'id_lin')->widget(Select2::classname(), [
+
+                                   'data' => ArrayHelper::map(app\models\VwLineas::find()->asArray()->all(),'id','descripcion'),
+                                   'language' => 'es',
+                                   'size' => Select2::SMALL,
+                                   'options' => ['placeholder' => 'Seleccione el la Linea'],
+                                   'pluginOptions' => [
+                                   'allowClear' => true
+                                   ],
+                                 ]);
+
+                           ?>
+
+          
         <?= $form->field($model, 'ref', [
           'addon' => ['prepend' => ['content'=>'<i class="fa fa-barcode"></i>']]
             ])->widget('yii\widgets\MaskedInput', [

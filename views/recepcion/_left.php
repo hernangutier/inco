@@ -28,10 +28,10 @@ $(document).ready(function (){
                // Formato de datos que se espera en la respuesta
                dataType: 'json',
                // URL a la que se enviará la solicitud Ajax
-               url: 'index.php?r=procesos%2Fbm3-master%2Fsave',
+               url: 'index.php?r=recepcion%2Fprocesar',
            })
             .done(function( data, textStatus, jqXHR ) {
-              var url = 'index.php?r=procesos%2Fbm3-master%2Fresult&id=' + data + '&type=2';
+              var url = 'index.php?r=recepcion%2Findex';
               $(location).attr('href', url);
             })
             .fail(function( jqXHR, textStatus, errorThrown ) {
