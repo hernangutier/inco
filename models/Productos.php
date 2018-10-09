@@ -21,6 +21,8 @@ use Yii;
  * @property string $und_medida
  * @property int $e_in_inv
  * @property int $e_out_inv
+ * @property int $id_ubic
+ * @property Ubicaciones $ubic
  *
  * @property Marcas $marca
  * @property Grupos $grupo
@@ -50,6 +52,7 @@ class Productos extends \yii\db\ActiveRecord
             [['id'], 'unique'],
             [['id_marca'], 'exist', 'skipOnError' => true, 'targetClass' => Marcas::className(), 'targetAttribute' => ['id_marca' => 'id']],
             [['id_grupo'], 'exist', 'skipOnError' => true, 'targetClass' => Grupos::className(), 'targetAttribute' => ['id_grupo' => 'id']],
+            [['id_ubic'], 'exist', 'skipOnError' => true, 'targetClass' => Ubicaciones::className(), 'targetAttribute' => ['id_ubic' => 'id']],
         ];
     }
 
@@ -72,6 +75,7 @@ class Productos extends \yii\db\ActiveRecord
             'min_venta'=>'Minimo a Facturar',
             'e_in_inv' => 'Existencia en Sistema',
             'e_out_inv' => 'Existeencia fuera de Sistema',
+            'id_ubic'=>'Ubicación',
         ];
     }
 
@@ -90,4 +94,13 @@ class Productos extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Grupos::className(), ['id' => 'id_grupo']);
     }
+
+     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUbic()
+    {
+        return $this->hasOne(Ubicaciones::className(), ['id' => 'id_ubic']);
+    }
+
 }

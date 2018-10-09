@@ -11,6 +11,8 @@ use kartik\dialog\Dialog;
 use yii\widgets\Pjax;
 use kartik\editable\Editable;
 use kartik\helpers\Enum;
+use yii\bootstrap\Modal;
+use app\models\Productos;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,6 +21,22 @@ $this->title = Yii::t('app', 'Productos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+
+<?php
+    $this->registerJs("
+           $(document).on('click', '#activity-index-link', (function() {
+        $('.tl').text('Nuevo Producto');
+        $.get(
+
+            $(this).data('url'),
+            function (data) {
+                $('.modal-body').html(data);
+                $('#modal-productos').modal();
+            }
+        );
+    }));
+    ");
+?>
 
 <?php
 $this->registerJs("
@@ -61,6 +79,22 @@ $this->registerJs("
      ');
  ?>
 
+
+ <?php
+Modal::begin([
+    'id' => 'modal-productos',
+    'options'=>[
+      'tabindex'=>false,
+    ],
+    'header' => '<h4 class="blue bigger tl">Nuevo Articulo</h4>',
+
+]);
+
+echo "<div class='well'></div>";
+
+Modal::end();
+?>
+
 <?php echo Dialog::widget(); ?>
 
 
@@ -73,6 +107,12 @@ $this->registerJs("
     'responsive'=>true,
     'hover'=>true,
     'pjax'=>true,
+     'pjaxSettings'=>[
+            'neverTimeout'=>true,
+            'options'=>[
+              'id'=>'grid-productos',
+            ],
+    ],
 
     'panel' => [
           'heading'=>'<h3 class="panel-title"><i class="fa fa-exclamation"></i> Productos</h3>',
@@ -85,9 +125,15 @@ $this->registerJs("
       'toolbar' => [
     [
         'content'=>
-        Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], [
+        Html::a('<i class="glyphicon glyphicon-plus"></i>', '#', [
             'class' => 'btn btn-success',
-            'title' => 'Registrar Proveedor'
+            'id' => 'activity-index-link',
+            'data-toggle' => 'modal',
+            'data-target' => '#modal',
+            'data-url' => Url::to(['productos/modal']),
+            'data-pjax' => '0',
+
+            'title' => 'Registrar Producto'
         ]) . ' '.
             Html::a('<i class="ace-icon fa fa-file-pdf-o bigger-125"></i>','#', [
                 'class' => 'btn btn-info sinc',

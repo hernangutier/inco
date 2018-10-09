@@ -78,6 +78,24 @@ use yii\helpers\ArrayHelper;
       </div>
     </div>
 
+    
+      <?php //-------------- Cargo -------------
+
+                              echo $form->field($model, 'id_ubic')->widget(Select2::classname(), [
+
+                                   'data' => ArrayHelper::map(app\models\VwUbicaciones::find()->asArray()->all(),'id','ubicacion'),
+                                   'language' => 'es',
+                                   'size' => Select2::SMALL,
+                                   'options' => ['placeholder' => 'Grupo de Inventario'],
+                                   'pluginOptions' => [
+                                   'allowClear' => true
+                                   ],
+                                 ]);
+
+        ?>
+     
+
+
 	<div class="row">
 		<div class="col-sm-6">
 			  <?= $form->field($model, 'und')->textInput(['maxlength' => true]) ?>

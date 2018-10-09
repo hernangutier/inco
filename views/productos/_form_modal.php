@@ -110,6 +110,7 @@ $this->registerJs('
                 form.serialize()
             )
             .done(function(result) {
+              $.pjax.reload({container: "#grid-productos"});
               $("#modal-productos").modal("hide");
 
             });

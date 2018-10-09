@@ -5,23 +5,22 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "lineas".
+ * This is the model class for table "almacenes".
  *
  * @property int $id
- * @property int $id_dep
  * @property string $ref
  * @property string $descripcion
  *
- * @property Departamentos $dep
+ * @property Ubicaciones[] $ubicaciones
  */
-class Lineas extends \yii\db\ActiveRecord
+class Almacenes extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'lineas';
+        return 'almacenes';
     }
 
     /**
@@ -30,11 +29,10 @@ class Lineas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_dep', 'ref', 'descripcion'], 'required'],
-            [['id_dep'], 'integer'],
+            [['ref', 'descripcion'], 'required'],
             [['ref'], 'string', 'max' => 10],
-            [['descripcion'], 'string', 'max' => 300],
-            [['id_dep'], 'exist', 'skipOnError' => true, 'targetClass' => Departamentos::className(), 'targetAttribute' => ['id_dep' => 'id']],
+            [['descripcion'], 'string', 'max' => 200],
+            [['ref'], 'unique'],
         ];
     }
 
@@ -45,7 +43,6 @@ class Lineas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_dep' => 'Id Dep',
             'ref' => 'Ref',
             'descripcion' => 'Descripcion',
         ];
@@ -54,8 +51,8 @@ class Lineas extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDep()
+    public function getUbicaciones()
     {
-        return $this->hasOne(Departamentos::className(), ['id' => 'id_dep']);
+        return $this->hasMany(Ubicaciones::className(), ['id_alm' => 'id']);
     }
 }

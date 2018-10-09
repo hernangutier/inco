@@ -5,19 +5,19 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "vw_lineas".
+ * This is the model class for table "vw_ubicaciones".
  *
  * @property int $id
- * @property string $descripcion
+ * @property string $ubicacion
  */
-class VwLineas extends \yii\db\ActiveRecord
+class VwUbicaciones extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'vw_lineas';
+        return 'vw_ubicaciones';
     }
 
     /**
@@ -27,7 +27,7 @@ class VwLineas extends \yii\db\ActiveRecord
     {
         return [
             [['id'], 'integer'],
-            [['descripcion'], 'string', 'max' => 311],
+            [['ubicacion'], 'string', 'max' => 211],
         ];
     }
 
@@ -38,7 +38,7 @@ class VwLineas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'descripcion' => 'Descripcion',
+            'ubicacion' => 'Ubicacion',
         ];
     }
 }
