@@ -239,9 +239,9 @@ Modal::end();
 
             [
               'class'=>'kartik\grid\EditableColumn',
-              'attribute'=>'costo',
+              'attribute'=>'pvp',
               'editableOptions'=>[
-                  'header'=>'Costo BsS.',
+                  'header'=>'PVP S/Iva BsS.',
                   //'inputType'=>\kartik\editable\Editable::INPUT_SPIN,
                   //'options'=>['pluginOptions'=>['min'=>0, 'max'=>5000]],
                   'asPopover' => false,
@@ -252,6 +252,7 @@ Modal::end();
               'format'=>['decimal', 2],
 
           ],
+          /*
           [
             'class'=>'kartik\grid\EditableColumn',
             'attribute'=>'percent_utilidad',
@@ -267,7 +268,8 @@ Modal::end();
             'format'=>['decimal', 2],
 
         ],
-
+        */
+        /*
         [
     'class' => '\kartik\grid\FormulaColumn',
     'header' => 'PVP BsS.',
@@ -281,6 +283,7 @@ Modal::end();
       'pageSummary' => true,
 
     ],
+    */
 
 
           [

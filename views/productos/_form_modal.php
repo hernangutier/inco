@@ -62,7 +62,7 @@ use app\models\Productos;
 
                               echo $form->field($model, 'id_grupo')->widget(Select2::classname(), [
 
-                                   'data' => ArrayHelper::map(app\models\Grupos::find()->asArray()->all(),'id','descripcion'),
+                                   'data' => ArrayHelper::map(app\models\VwGrupos::find()->asArray()->all(),'id','grupo'),
                                    'language' => 'es',
                                    'size' => Select2::SMALL,
                                    'options' => ['placeholder' => 'Grupo de Inventario'],
@@ -75,6 +75,22 @@ use app\models\Productos;
       </div>
     </div>
 
+  <?php //-------------- Cargo -------------
+
+                              echo $form->field($model, 'id_ubic')->widget(Select2::classname(), [
+
+                                   'data' => ArrayHelper::map(app\models\VwUbicaciones::find()->asArray()->all(),'id','ubicacion'),
+                                   'language' => 'es',
+                                   'size' => Select2::SMALL,
+                                   'options' => ['placeholder' => 'Grupo de Inventario'],
+                                   'pluginOptions' => [
+                                   'allowClear' => true
+                                   ],
+                                 ]);
+
+        ?>
+  
+
   <div class="row">
     <div class="col-sm-6">
         <?= $form->field($model, 'und')->textInput(['maxlength' => true]) ?>
@@ -83,6 +99,7 @@ use app\models\Productos;
         <?= $form->field($model, 'min_venta')->textInput(['maxlength' => true]) ?>
     </div>
   </div>
+
 
 
 

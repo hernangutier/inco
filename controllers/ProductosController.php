@@ -61,9 +61,9 @@ class ProductosController extends Controller
         $posted = current($_POST['Productos']);
         $post = ['detalle' => $posted];
 
-        if (isset($posted['costo'])){
-            $model->costo=$posted['costo'];
-            $output=$model->costo;
+        if (isset($posted['pvp'])){
+            $model->pvp=$posted['pvp'];
+            $output=$model->pvp;
             if ($model->save() ) {
               $out = Json::encode(['output'=>$output, 'message'=>'']);
               echo $out;

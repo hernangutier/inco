@@ -85,6 +85,8 @@ echo Editable::widget([
 <hr data-skipstyle="true" style="border-width: 0px; height: 1px; background-color: #e8e8e8;">
 <?= '<label>Resgistrado por</label><br>' ?>
 <a href="#" style="color: #428bca; text-decoration: none; background-color: transparent;">bienes@gmail.com</a>
+<?= '<label>Observaciones</label><br>' ?>
+<a href="#" style="color: #428bca; text-decoration: none; background-color: transparent;"><?= $model->observaciones ?></a>
 
 <?php
     if ($model->status==0){
