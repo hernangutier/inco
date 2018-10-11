@@ -3,7 +3,7 @@
 use kartik\helpers\Html;
 use kartik\grid\GridView;
 use app\models\Marcas;
-use app\models\Grupos;
+use app\models\VwGrupos;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
@@ -229,7 +229,7 @@ Modal::end();
                 return isset($searchModel->grupo) ? Html::bsLabel('<b>'. $searchModel->grupo->descripcion . '</b>', Html::TYPE_PRIMARY)  : Html::bsLabel('No Ubicado', Html::TYPE_WARNING);
               },
               'filterType' => GridView::FILTER_SELECT2,
-              'filter' => ArrayHelper::map(Grupos::find()->orderBy('descripcion')->asArray()->all(), 'id', 'descripcion'),
+              'filter' => ArrayHelper::map(VwGrupos::find()->asArray()->all(), 'id', 'grupo'),
               'filterWidgetOptions' => [
                   'pluginOptions' => ['allowClear' => true],
               ],
@@ -252,12 +252,12 @@ Modal::end();
               'format'=>['decimal', 2],
 
           ],
-          /*
+          
           [
             'class'=>'kartik\grid\EditableColumn',
-            'attribute'=>'percent_utilidad',
+            'attribute'=>'min_venta',
             'editableOptions'=>[
-                'header'=>'% Utilidad',
+                'header'=>'Min. Venta',
                 //'inputType'=>\kartik\editable\Editable::INPUT_SPIN,
                 //'options'=>['pluginOptions'=>['min'=>0, 'max'=>5000]],
                 'asPopover' => false,
@@ -268,7 +268,7 @@ Modal::end();
             'format'=>['decimal', 2],
 
         ],
-        */
+        
         /*
         [
     'class' => '\kartik\grid\FormulaColumn',
@@ -285,6 +285,7 @@ Modal::end();
     ],
     */
 
+          
 
           [
         'class'=>'kartik\grid\EditableColumn',

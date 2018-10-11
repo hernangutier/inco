@@ -278,6 +278,27 @@ Select2::widget([
               'format' => ['decimal', 2],
               'pageSummary' => true
           ],  
+
+          [
+              'class' => 'kartik\grid\EditableColumn',
+              'attribute' => 'cnt_defect', 
+              'readonly' => function($model, $key, $index, $widget) {
+                  return ($model->recep->status); // do not allow editing of inactive records
+              },
+              'editableOptions' => [
+                  'header' => 'Cnt. Defect.',
+                  'asPopover' => false, 
+                  'inputType' => \kartik\editable\Editable::INPUT_SPIN,
+                  'options' => [
+                      'pluginOptions' => ['min' => 0, 'max' => 5000]
+                  ]
+              ],
+              'hAlign' => 'right', 
+              'vAlign' => 'middle',
+              'width' => '20%',
+              'format' => ['decimal', 2],
+              'pageSummary' => true
+          ],  
       // 'web',
       // 'contacto',
       // 'tel_contacto',

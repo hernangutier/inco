@@ -74,7 +74,15 @@ use app\models\Productos;
                            ?>
       </div>
     </div>
-
+ <div class="row">
+   
+ 
+ <div class="col-sm-6">
+   <?= $form->field($model, 'ref_fab')->textInput(['maxlength' => true]) ?>
+ </div>
+ <div class="col-sm-6">
+   
+ 
   <?php //-------------- Cargo -------------
 
                               echo $form->field($model, 'id_ubic')->widget(Select2::classname(), [
@@ -89,6 +97,9 @@ use app\models\Productos;
                                  ]);
 
         ?>
+    </div>    
+</div>   
+ 
   
 
   <div class="row">

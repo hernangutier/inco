@@ -72,6 +72,17 @@ class ProductosController extends Controller
 
         }
 
+        if (isset($posted['min_venta'])){
+            $model->min_venta=$posted['min_venta'];
+            $output=$model->min_venta;
+            if ($model->save() ) {
+              $out = Json::encode(['output'=>$output, 'message'=>'']);
+              echo $out;
+              return;
+            }
+
+        }
+
         if (isset($posted['percent_utilidad'])){
             $model->percent_utilidad=$posted['percent_utilidad'];
             $output=$model->percent_utilidad;

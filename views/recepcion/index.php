@@ -93,6 +93,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
 
                 [
+                  'class' => 'yii\grid\ActionColumn',
+                  'template' => '{lotes}',
+                  'buttons' => [
+                    'lotes' => function ($url, $model, $key) {
+                        return Html::a('<span class="btn btn-xs btn-primary"><i class="ace-icon fa fa-refresh bigger-120"></i></span> ',
+                            Url::to(['recepcion/lotes','id'=>$model->id]), [
+                            'id' => 'activity-index-link',
+                            'title' => Yii::t('app', 'Administrar Lotes'),
+
+                      ]);
+                  },
+
+                ],
+                ],
+
+                [
                       'class' => 'yii\grid\ActionColumn',
                       'template' => '{delete}',
                       'buttons' => [

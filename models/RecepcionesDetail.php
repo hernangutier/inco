@@ -11,6 +11,7 @@ use Yii;
  * @property int $id_prod
  * @property int $cnt_facturada
  * @property int $cnt_recibida
+ * @property int $cnt_defect
  * @property int $id_recep
  *
  * @property Productos $prod
@@ -33,7 +34,7 @@ class RecepcionesDetail extends \yii\db\ActiveRecord
     {
         return [
             [['cnt_facturada', 'cnt_recibida'], 'required'],
-            [['cnt_facturada', 'cnt_recibida', 'id_recep','id_prod'], 'integer'],
+            [['cnt_facturada', 'cnt_recibida','cnt_defect', 'id_recep','id_prod'], 'integer'],
             
             [['id_prod'], 'exist', 'skipOnError' => true, 'targetClass' => Productos::className(), 'targetAttribute' => ['id_prod' => 'id']],
             [['id_recep'], 'exist', 'skipOnError' => true, 'targetClass' => Recepcion::className(), 'targetAttribute' => ['id_recep' => 'id']],
@@ -51,6 +52,7 @@ class RecepcionesDetail extends \yii\db\ActiveRecord
             'cnt_facturada' => 'Facturado',
             'cnt_recibida' => 'Recibido',
             'id_recep' => 'Id Recep',
+            'cnt_defect'=>'Defectuosa',
         ];
     }
 

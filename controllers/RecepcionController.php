@@ -64,6 +64,17 @@ class RecepcionController extends Controller
           }
     }
 
+    public function actionLotes($id){
+      $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('lotes', [
+            'model' => $model,
+        ]);
+    }
+
 
     public function actionAnular($id){
 
@@ -105,6 +116,17 @@ class RecepcionController extends Controller
         if (isset($posted['cnt_facturada'])){
             $model->cnt_facturada=$posted['cnt_facturada'];
             $output=$model->cnt_facturada;
+            if ($model->save() ) {
+              $out = Json::encode(['output'=>$output, 'message'=>'']);
+              echo $out;
+              return;
+            }
+
+        }
+
+         if (isset($posted['cnt_defect'])){
+            $model->cnt_defect=$posted['cnt_defect'];
+            $output=$model->cnt_defect;
             if ($model->save() ) {
               $out = Json::encode(['output'=>$output, 'message'=>'']);
               echo $out;

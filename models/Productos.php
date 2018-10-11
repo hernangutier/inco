@@ -14,6 +14,7 @@ use Yii;
  * @property string $costo
  * @property string $percent_utilidad
  * @property string $pvp
+ * @property string $ref_fab
  * @property int $is_public
  * @property int $id_marca
  * @property int $id_grupo
@@ -47,6 +48,7 @@ class Productos extends \yii\db\ActiveRecord
             [['id', 'is_public', 'id_marca', 'id_grupo','min_venta','e_in_inv', 'e_out_inv'], 'integer'],
             [['costo', 'percent_utilidad', 'pvp'], 'number'],
             [['ref', 'und'], 'string', 'max' => 45],
+            [['ref_fab'], 'string', 'max' => 10],
             [['descripcion'], 'string', 'max' => 400],
             [['ref'], 'unique'],
             [['id'], 'unique'],
@@ -76,6 +78,7 @@ class Productos extends \yii\db\ActiveRecord
             'e_in_inv' => 'Existencia en Sistema',
             'e_out_inv' => 'Existeencia fuera de Sistema',
             'id_ubic'=>'Ubicación',
+            'ref_fab'=>'Referencia de Fabricante'
         ];
     }
 
