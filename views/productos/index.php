@@ -211,7 +211,7 @@ Modal::end();
     'vAlign' => 'middle',
     'width' => '180px',
     'value' => function ($model, $key, $index, $widget) {
-        return $model->marca->descripcion;
+        return isset($model->marca) ? $model->marca->descripcion : 'No Asignado';
 
     },
     'filterType' => GridView::FILTER_SELECT2,
@@ -222,6 +222,7 @@ Modal::end();
     'filterInputOptions' => ['placeholder' => 'No Filtro'],
     'format' => 'raw'
   ],
+
             [
               'attribute'=>'id_grupo',
               'label'=>'Grupo de Inventario',
@@ -295,6 +296,29 @@ Modal::end();
         ['class'=>'form-control','prompt' => 'No Filtro']),
         'editableOptions'=>[
             'header'=>'Publicado',
+            'asPopover' => false,
+            'inputType'=>Editable :: INPUT_DROPDOWN_LIST,
+            'data' => [0 => 'No', 1 => 'Si'],
+            'options' => ['class'=>'form-control', 'prompt'=>'Selecionar...'],
+            'displayValueConfig'=> [
+                '1' => '<i class="ace-icon fa fa-check green bigger-160"></i>',
+                '0' => '<i class="ace-icon fa fa-times red2 bigger-160"></i>'
+            ],
+
+        ],
+        'hAlign'=>'center',
+        'vAlign'=>'middle',
+        'width'=>'200px',
+      ],
+
+      [
+        'class'=>'kartik\grid\EditableColumn',
+        'attribute'=>'is_new',
+        'filter' => Html::activeDropDownList($searchModel,
+        'is_public', Enum::boolList('No', 'Si') ,
+        ['class'=>'form-control','prompt' => 'No Filtro']),
+        'editableOptions'=>[
+            'header'=>'Marcar Como Producto Nuevo',
             'asPopover' => false,
             'inputType'=>Editable :: INPUT_DROPDOWN_LIST,
             'data' => [0 => 'No', 1 => 'Si'],

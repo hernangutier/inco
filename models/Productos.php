@@ -16,9 +16,10 @@ use Yii;
  * @property string $pvp
  * @property string $ref_fab
  * @property int $is_public
+ * @property int $is_new
  * @property int $id_marca
  * @property int $id_grupo
- * @property int $min_venta
+ * @property string $min_venta
  * @property string $und_medida
  * @property int $e_in_inv
  * @property int $e_out_inv
@@ -45,8 +46,8 @@ class Productos extends \yii\db\ActiveRecord
     {
         return [
             [['ref','descripcion'], 'required'],
-            [['id', 'is_public', 'id_marca', 'id_grupo','min_venta','e_in_inv', 'e_out_inv'], 'integer'],
-            [['costo', 'percent_utilidad', 'pvp'], 'number'],
+            [['id', 'is_public','is_new', 'id_marca', 'id_grupo','e_in_inv', 'e_out_inv'], 'integer'],
+            [['costo', 'percent_utilidad', 'pvp','min_venta'], 'number'],
             [['ref', 'und'], 'string', 'max' => 45],
             [['ref_fab'], 'string', 'max' => 10],
             [['descripcion'], 'string', 'max' => 400],
@@ -78,7 +79,8 @@ class Productos extends \yii\db\ActiveRecord
             'e_in_inv' => 'Existencia en Sistema',
             'e_out_inv' => 'Existeencia fuera de Sistema',
             'id_ubic'=>'Ubicación',
-            'ref_fab'=>'Referencia de Fabricante'
+            'ref_fab'=>'Referencia de Fabricante',
+            'is_new'=>'Marcar como Producto Nuevo'
         ];
     }
 

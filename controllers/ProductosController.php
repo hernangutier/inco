@@ -105,6 +105,17 @@ class ProductosController extends Controller
 
         }
 
+        if (isset($posted['is_new'])){
+            $model->is_new=$posted['is_new'];
+            $output=$model->is_new;
+            if ($model->save() ) {
+              $out = Json::encode(['output'=>$output, 'message'=>'']);
+              echo $out;
+              return;
+            }
+
+        }
+
 
         if (isset($posted['categoria'])){
             $model->sexo=$posted['categoria'];

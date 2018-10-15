@@ -5,7 +5,7 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\ActiveField;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-
+use app\models\VwGrupos;
 /* @var $this yii\web\View */
 /* @var $model app\models\Productos */
 /* @var $form yii\widgets\ActiveForm */
@@ -65,7 +65,7 @@ use yii\helpers\ArrayHelper;
 
                               echo $form->field($model, 'id_grupo')->widget(Select2::classname(), [
 
-                                   'data' => ArrayHelper::map(app\models\Grupos::find()->asArray()->all(),'id','descripcion'),
+                                   'data' => ArrayHelper::map(app\models\VwGrupos::find()->asArray()->all(),'id','grupo'),
                                    'language' => 'es',
                                    'size' => Select2::SMALL,
                                    'options' => ['placeholder' => 'Grupo de Inventario'],
