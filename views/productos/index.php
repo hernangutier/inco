@@ -270,21 +270,21 @@ Modal::end();
 
         ],
         
-        /*
+        
         [
     'class' => '\kartik\grid\FormulaColumn',
-    'header' => 'PVP BsS.',
+    'header' => 'Precio + IVA BsS.',
     'value' => function ($model, $key, $index, $widget) {
         $p = compact('model', 'key', 'index');
         // Write your formula below
-        return $widget->col(6, $p) /((100-$widget->col(7, $p))/100);
+        return $widget->col(7, $p) * 1.16;
       },
       'format'=>['decimal', 2],
       'mergeHeader' => true,
       'pageSummary' => true,
 
     ],
-    */
+    
 
           
 

@@ -28,7 +28,7 @@ use kartik\money\MaskMoney;
     <?= $form->field($model, 'cedrif', [
       'addon' => ['prepend' => ['content'=>'<i class="fa fa-barcode"></i>']]
         ])->widget('yii\widgets\MaskedInput', [
-        'mask' => 'A99999999'
+        'mask' => 'A999999999'
     ])?>
 
 

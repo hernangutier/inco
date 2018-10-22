@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "notas_entrega".
  *
  * @property int $id
+ * @property int $ncontrol
  * @property int $id_client
  * @property string $fecha
  * @property string $motivo
@@ -33,7 +34,7 @@ class NotasEntrega extends \yii\db\ActiveRecord
     {
         return [
             [['id_client', 'fecha', 'motivo'], 'required'],
-            [['id_client', 'status'], 'integer'],
+            [['id_client', 'status','ncontrol'], 'integer'],
             [['fecha'], 'safe'],
             [['motivo'], 'string', 'max' => 400],
             [['id_client'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['id_client' => 'id']],
@@ -47,10 +48,11 @@ class NotasEntrega extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_client' => 'Id Client',
+            'id_client' => 'Cliente',
             'fecha' => 'Fecha',
             'motivo' => 'Motivo',
             'status' => 'Status',
+            'ncontrol'=>'N° de Control',
         ];
     }
 
@@ -69,4 +71,24 @@ class NotasEntrega extends \yii\db\ActiveRecord
     {
         return $this->hasMany(NotasEntregaDetail::className(), ['id_not' => 'id']);
     }
+
+    public function getStatusHtml(){
+      if ($this->status==0){
+        return '<span class="badge badge-warning"><b>Pendiente</b></span>';
+      }
+
+      if ($this->status==1){
+        return '<span class="badge badge-success">Procesado</span>';
+      }
+
+      if ($this->status==2){
+        return '<span class="badge badge-danger">Anulado</span>';
+      }
+
+    }
+
+  public function getNControlFormat()
+  {
+      return str_pad($this->ncontrol,10,'0',STR_PAD_LEFT);
+  }
 }

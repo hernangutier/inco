@@ -3,20 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Clientes;
-use app\models\ClientesSearch;
+use app\models\NotasEntregaDetail;
+use app\models\NotasEntregaDetailSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use  yii\db\Query;
-use yii\web\Response;
-use yii\helpers\Url;
-use yii\helpers\Json;
-use yii\widgets\ActiveForm;
+
 /**
- * ClientesController implements the CRUD actions for Clientes model.
+ * NotasEntregaDetailController implements the CRUD actions for NotasEntregaDetail model.
  */
-class ClientesController extends Controller
+class NotasEntregaDetailController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -34,12 +30,12 @@ class ClientesController extends Controller
     }
 
     /**
-     * Lists all Clientes models.
+     * Lists all NotasEntregaDetail models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ClientesSearch();
+        $searchModel = new NotasEntregaDetailSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,7 +45,7 @@ class ClientesController extends Controller
     }
 
     /**
-     * Displays a single Clientes model.
+     * Displays a single NotasEntregaDetail model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -62,16 +58,16 @@ class ClientesController extends Controller
     }
 
     /**
-     * Creates a new Clientes model.
+     * Creates a new NotasEntregaDetail model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Clientes();
+        $model = new NotasEntregaDetail();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -80,7 +76,7 @@ class ClientesController extends Controller
     }
 
     /**
-     * Updates an existing Clientes model.
+     * Updates an existing NotasEntregaDetail model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -91,7 +87,7 @@ class ClientesController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -100,7 +96,7 @@ class ClientesController extends Controller
     }
 
     /**
-     * Deletes an existing Clientes model.
+     * Deletes an existing NotasEntregaDetail model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,50 +106,22 @@ class ClientesController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        
     }
 
     /**
-     * Finds the Clientes model based on its primary key value.
+     * Finds the NotasEntregaDetail model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Clientes the loaded model
+     * @return NotasEntregaDetail the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Clientes::findOne($id)) !== null) {
+        if (($model = NotasEntregaDetail::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    public function actionModal($submit = false)
-        {
-          $model = new Clientes();
-
-
-            if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && $submit == false) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($model);
-            }
-
-            if ($model->load(Yii::$app->request->post())) {
-                if ($model->save()) {
-                    $model->refresh();
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return [
-                        'message' => '¡Éxito!',
-                    ];
-                } else {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ActiveForm::validate($model);
-                }
-    }
-
-    return $this->renderAjax('_form_modal', [
-        'model' => $model,
-    ]);
-}
 }

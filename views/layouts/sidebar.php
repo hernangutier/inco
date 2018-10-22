@@ -178,9 +178,9 @@
 
 
                   <li class="">
-                          <a href="<?= Url::to(['comisiones/create'])  ?>">
+                          <a href="<?= Url::to(['notas-entrega/create'])  ?>">
                             <i class="menu-icon fa fa-caret-right"></i>
-                            Aperturar Comision a Chofer
+                            Despacho con Nota de Entrega
                           </a>
 
                           <b class="arrow"></b>

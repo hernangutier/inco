@@ -47,7 +47,7 @@ class NotasEntregaDetail extends \yii\db\ActiveRecord
             'id' => 'ID',
             'id_not' => 'Id Not',
             'id_prod' => 'Id Prod',
-            'cnt' => 'Cnt',
+            'cnt' => 'Cantidad Despachada',
         ];
     }
 
