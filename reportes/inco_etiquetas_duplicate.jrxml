@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inco_etiquetas" language="groovy" columnCount="2" pageWidth="612" pageHeight="792" columnWidth="286" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="455ed719-ef71-43df-a8b0-e53bbd974c78">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select p.ref,p.descripcion,u.ref,
+        a.descripcion,
+        concat(g.ref, ' ' ,g.descripcion) as grupo,
+        concat(l.ref,' ' , l.descripcion) as linea,
+        concat(d.ref, ' ' ,d.descripcion) as dep
+		from productos p, ubicaciones u, almacenes a,
+             grupos g, lineas l, departamentos d
+
+		where p.id_ubic=u.id and u.id_alm=a.id
+			  and p.id_grupo=g.id and g.id_lin=l.id
+              and l.id_dep=d.id
+and p.ref in ('447-001','447-002','447-003','448-001','448-002',
+'448-003','446-003','446-002')]]>
+	</queryString>
+	<field name="ref" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="grupo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="linea" class="java.lang.String"/>
+	<field name="dep" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="128" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="286" height="127" uuid="5758b12f-5dce-4278-bd05-98d7db6c9b4f"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textField>
+					<reportElement x="0" y="70" width="275" height="28" uuid="039d268e-0313-4c1e-a204-9170919f4867"/>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="16" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Ref: " + $F{ref}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="94" width="275" height="33" uuid="e9e9660c-f6cf-4f5a-9970-bacc68201ba1"/>
+					<textElement textAlignment="Justified">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="3" y="57" width="272" height="15" uuid="aecf4fc4-1cbd-4de8-96a8-8787906d22b0"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Grupo:" + $F{grupo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="3" y="46" width="272" height="14" uuid="8115d9f2-cff6-4a8c-aa35-cc888c2c2a2b"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Linea: " + $F{linea}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="2" width="275" height="23" uuid="8c2bb46a-91f4-4cbc-9b41-0f6aa63476d1"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[INCODELTA, C.A.]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="3" y="33" width="272" height="15" uuid="23d7613b-df68-48dd-b550-c70cfd29a91b"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Departamento: " + $F{dep}]]></textFieldExpression>
+				</textField>
+				<image scaleImage="FillFrame" isLazy="true">
+					<reportElement x="0" y="2" width="56" height="34" uuid="ea2e624e-2fb7-487f-b094-97d539a8d234"/>
+					<imageExpression><![CDATA["/home/hernan/Descargas/LOGO-INCODELTA-02.jpg"]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="104" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

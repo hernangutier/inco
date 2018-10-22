@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inco_list_grupos" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0d5056c7-8119-428e-b054-d617f12a1d9a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select
+		d.descripcion as dep,
+        l.descripcion as lin,
+        g.ref as ref,
+        g.descripcion as grup
+        from grupos g, lineas l, departamentos d
+		where g.id_lin=l.id and l.id_dep=d.id
+        ORDER by dep,lin,ref]]>
+	</queryString>
+	<field name="dep" class="java.lang.String"/>
+	<field name="lin" class="java.lang.String"/>
+	<field name="ref" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="grup" class="java.lang.String"/>
+	<group name="departamento">
+		<groupExpression><![CDATA[$F{dep}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="572" height="20" backcolor="#00CC66" uuid="1fc3c767-01d9-4a6f-b6d5-667940cffb15"/>
+					<textField>
+						<reportElement x="0" y="0" width="572" height="20" forecolor="#FFFFFF" uuid="410b4c04-912a-4501-87c8-42a613853b4e"/>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DejaVu Sans" size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Departamento: " + $F{dep}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="12"/>
+		</groupFooter>
+	</group>
+	<group name="linea">
+		<groupExpression><![CDATA[$F{lin}]]></groupExpression>
+		<groupHeader>
+			<band height="45">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="20" width="100" height="20" backcolor="#CCFFFF" uuid="b7a4ed0b-b181-4a55-a9f9-8156307ea312"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Codigo de Grupo:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="102" y="20" width="470" height="20" backcolor="#CCFFFF" uuid="bc2f1e48-68ad-4b88-be41-5e01b106a534"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Denominación de Grupo]]></text>
+				</staticText>
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="572" height="20" backcolor="#FF6600" uuid="a1b88748-6816-46f7-aeea-7caad1e9be2b"/>
+					<textField>
+						<reportElement x="0" y="0" width="572" height="20" forecolor="#FFFFFF" uuid="347c80ba-4967-4711-8dd8-9b242976590f"/>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DejaVu Sans" size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Linea: " +  $F{lin}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<line>
+					<reportElement x="0" y="42" width="572" height="1" uuid="29546cfa-4905-44c6-9873-260c89cacb0e"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="14"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="37" width="572" height="20" uuid="666987c4-d4f7-4850-be85-0b5efc2040d5"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Grupos de Inventario]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement x="3" y="0" width="145" height="79" uuid="1314605a-3229-4198-90cf-6084e54738bb"/>
+				<imageExpression><![CDATA["/home/hernan/Descargas/LOGO-INCODELTA-02.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="27" width="572" height="1" uuid="21aead19-fc91-4179-9ba3-b1d83395f37c"/>
+			</line>
+			<textField>
+				<reportElement x="2" y="0" width="100" height="27" uuid="68e63e57-8e08-4275-94d7-300217d35887"/>
+				<textFieldExpression><![CDATA[$F{ref}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="0" width="472" height="27" uuid="74f52f57-ecfa-4334-8970-a951f6642fae"/>
+				<textFieldExpression><![CDATA[$F{grup}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="9" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="14" uuid="30cae976-76cc-481b-b293-ce581059b8ec"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFRAESTRUCTURA Y CONSTRUCCONES DELTA (INCODELTA) C.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="572" height="20" uuid="df51e2ba-99c2-48c3-bf9f-dbdf3701ac69"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Venta de Ferretería y Quincallería al Mayor]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
