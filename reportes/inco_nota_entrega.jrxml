@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inco_nota_entrega" language="groovy" pageWidth="612" pageHeight="220" columnWidth="582" leftMargin="20" rightMargin="10" topMargin="20" bottomMargin="20" uuid="3a995994-b47f-4dbd-819e-333eb6d39254">
+	<property name="ireport.zoom" value="1.464100000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_not" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 	   p.ref,
+             p.descripcion,
+	   dt.cnt,
+             c.cedrif,
+             c.razon,
+	   c.direccion,
+             nt.ncontrol
+	  from notas_entrega_detail dt,
+	  notas_entrega nt,
+	  productos p,
+            clientes c
+            where dt.id_not=nt.id and
+	        dt.id_prod=p.id and
+	       	   nt.id_client=c.id and
+nt.id=$P{id_not}]]>
+	</queryString>
+	<field name="ref" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cnt" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedrif" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="razon" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ncontrol" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="ref_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{ref}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="61" splitType="Stretch">
+			<textField>
+				<reportElement x="77" y="27" width="100" height="10" uuid="b2da350b-d717-4885-92f0-8f7b2270edc1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedrif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="38" width="240" height="11" uuid="f2622c36-c661-4221-bf33-930796a28c70"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{razon}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="20" uuid="987d26cd-e59e-4ce0-beb4-c09c7470b398"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Nota de Entrega]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="27" width="76" height="10" uuid="2ef05474-39c1-47e7-b3a1-b121d1ede807"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Rif:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="38" width="77" height="11" uuid="3ec8ccc3-8ed8-4408-9d3c-247b6847a142"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Razon Social:]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="76" height="21" uuid="540f8bb7-8f11-40db-be1c-d32132ba23a7"/>
+				<imageExpression><![CDATA["/home/hernan/Descargas/LOGO-INCODELTA-02.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="482" y="20" width="100" height="20" uuid="4b05e1f1-8698-45f1-a181-7936afc3b4b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ncontrol}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="382" y="20" width="100" height="21" uuid="cdca138c-6c14-41cc-83a7-06de7fb89496"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[N° de Control:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="436" y="1" width="146" height="20" uuid="789a1a72-7066-4760-a08b-4e9f3b477d53"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="50" width="240" height="11" uuid="9e7be778-14f3-4ccd-97ec-bbed83e7238f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="50" width="77" height="11" uuid="8e7bb55d-0111-41c5-b040-7d21be221bc6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="15" uuid="104fab44-0c8d-4567-b8b8-cfdafaca9b4b"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Catalogo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="2" width="100" height="15" uuid="a79e9337-0aa0-4eeb-85f0-3633c28aca0b"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="2" width="99" height="15" uuid="45a556d0-d33c-4f75-9501-52afd80fdb97"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Despachada]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="19" width="572" height="1" uuid="7023acb7-6ed6-4bbb-86e0-7396cbb66a18"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="2" width="110" height="12" uuid="8fc9f08b-9c69-44c7-9fb8-60e16d20b09c"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ref}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="2" width="362" height="12" uuid="dd21bd8d-e359-43af-b17b-2cecd4d87d43"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="1" width="100" height="13" uuid="eabb2400-c31f-4433-9dca-0a262a830f4d"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cnt}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="78" splitType="Stretch">
+			<textField>
+				<reportElement x="471" y="2" width="100" height="20" uuid="9a6095b7-9c3b-4a7f-9221-6e1cb7da2c7e"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ref_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="219" y="2" width="252" height="20" uuid="4d96266d-918c-4e08-9b0e-d7e559e95d3d"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Total Items Despachados........]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="35" width="195" height="20" uuid="50d9a29a-dd61-4800-ae84-796f877d514f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Recibi Conforme]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="35" width="195" height="20" uuid="e373f0ef-2139-44f8-9332-89045ed230b5"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Firma y Sello]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="2" width="572" height="1" uuid="d424c116-89c0-4b31-b187-97d3a2da9bf7"/>
+			</line>
+			<line>
+				<reportElement x="0" y="65" width="582" height="1" uuid="40ace7c7-28b3-4e7f-9988-7aa6f234b1d9"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
